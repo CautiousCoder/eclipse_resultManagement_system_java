@@ -1,16 +1,9 @@
 package com.resultManagement;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.Font;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import java.awt.Color;
-import javax.swing.JButton;
+import java.awt.*;
+import javax.swing.*;
+import com.SignupLogin.*;
+import java.awt.event.*;
 
 public class welcome extends JFrame {
 
@@ -39,45 +32,86 @@ public class welcome extends JFrame {
 		setFont(new Font("Dialog", Font.BOLD, 38));
 		setTitle("WellCome");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(300, 100, 550, 400);
+		setBounds(300, 100, 650, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(null);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+
 		
 		JLabel lblNewLabel = new JLabel("WELLCOME");
 		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 62));
-		lblNewLabel.setForeground(new Color(0, 255, 0));
+		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(50, 30, 450, 60);
+		lblNewLabel.setBounds(90, 30, 450, 60);
 		contentPane.add(lblNewLabel);
-		
+//			while(true) {
+//				lblNewLabel.setVisible(false);
+//				try {
+//					Theard.sleep(1000);
+//				}catch(Exception e) {}
+//				lblNewLabel.setVisible(true);
+//				try {
+//					Theard.sleep(1000);
+//				}catch(Exception e) {}
+//			}
 		JButton teacherButton = new JButton("Teacher's");
+		teacherButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TeacherLogin tc = new TeacherLogin();
+				tc.setVisible(true);
+				setVisible(false);
+			}
+		});
 		teacherButton.setToolTipText("If you Teacher please click..");
 		teacherButton.setBackground(new Color(0, 206, 209));
 		teacherButton.setFont(new Font("Dialog", Font.BOLD, 24));
-		teacherButton.setBounds(170, 115, 200, 40);
+		teacherButton.setBounds(220, 115, 200, 40);
 		contentPane.add(teacherButton);
 		
 		JButton btnEmployee = new JButton("Employee");
+		btnEmployee.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				EmployeeLogin em = new EmployeeLogin();
+				em.setVisible(true);
+				setVisible(false);
+			}
+		});
 		btnEmployee.setToolTipText("If you Teacher employee click..");
 		btnEmployee.setFont(new Font("Dialog", Font.BOLD, 24));
 		btnEmployee.setBackground(new Color(65, 105, 225));
-		btnEmployee.setBounds(170, 170, 200, 40);
+		btnEmployee.setBounds(220, 170, 200, 40);
 		contentPane.add(btnEmployee);
 		
 		JButton btnStudent = new JButton("Student");
+		btnStudent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				StudentLogin st = new StudentLogin();
+				st.setVisible(true);
+				setVisible(false);
+			}
+		});
 		btnStudent.setToolTipText("If you are Student please click..");
 		btnStudent.setFont(new Font("Dialog", Font.BOLD, 24));
 		btnStudent.setBackground(new Color(50, 205, 50));
-		btnStudent.setBounds(170, 225, 200, 40);
+		btnStudent.setBounds(220, 225, 200, 40);
 		contentPane.add(btnStudent);
 		
 		JButton btnExit = new JButton("EXIT");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+			}
+		});
 		btnExit.setToolTipText("");
 		btnExit.setFont(new Font("Dialog", Font.BOLD, 24));
 		btnExit.setBackground(new Color(255, 255, 240));
-		btnExit.setBounds(220, 310, 100, 40);
+		btnExit.setBounds(265, 310, 100, 40);
 		contentPane.add(btnExit);
+		
+		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setIcon(new ImageIcon(welcome.class.getResource("/image/BegumRokeyaUniversity.jpg")));
+		lblNewLabel_1.setBounds(0, 0, 650, 400);
+		contentPane.add(lblNewLabel_1);
 	}
 }
