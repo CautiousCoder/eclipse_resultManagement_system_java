@@ -30,6 +30,7 @@ public class StudentSignup extends JFrame {
 	private JTextField textField_1;
 	private JTextField fphone;
 	private JTextField mphone;
+	private JTextField saddress;
 
 	/**
 	 * Launch the application.
@@ -61,7 +62,7 @@ public class StudentSignup extends JFrame {
 		
 		JButton ssignup = new JButton("SIGN UP");
 		ssignup.setBackground(new Color(0, 191, 255));
-		ssignup.setBounds(195, 400, 117, 35);
+		ssignup.setBounds(195, 430, 117, 35);
 		contentPane.add(ssignup);
 		
 		JLabel lblNewLabel = new JLabel("STUDENT");
@@ -191,44 +192,55 @@ public class StudentSignup extends JFrame {
 		contentPane.add(lblEmail_1_1);
 		
 		fphone = new JTextField();
-		fphone.setToolTipText("Enter Your Name");
+		fphone.setToolTipText("Father's Phone");
 		fphone.setColumns(10);
 		fphone.setBounds(550, 220, 150, 30);
 		contentPane.add(fphone);
 		
 		mphone = new JTextField();
-		mphone.setToolTipText("Enter Your Name");
+		mphone.setToolTipText("Mother's Phone");
 		mphone.setColumns(10);
 		mphone.setBounds(550, 260, 150, 30);
 		contentPane.add(mphone);
 		
 		JLabel lblPassword_1_2 = new JLabel("FACULTY :");
 		lblPassword_1_2.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblPassword_1_2.setBounds(30, 300, 100, 30);
+		lblPassword_1_2.setBounds(30, 340, 100, 30);
 		contentPane.add(lblPassword_1_2);
 		
 		JComboBox comboBox_1 = new JComboBox();
 		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Engineering", "Humanities", "Business","Arts"}));
-		comboBox_1.setBounds(185, 300, 350, 30);
+		comboBox_1.setBounds(185, 340, 350, 30);
 		contentPane.add(comboBox_1);
 		
 		JLabel lblPassword_1_1_1_1 = new JLabel("DEPARTMENT :");
 		lblPassword_1_1_1_1.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblPassword_1_1_1_1.setBounds(30, 340, 120, 30);
+		lblPassword_1_1_1_1.setBounds(30, 380, 120, 30);
 		contentPane.add(lblPassword_1_1_1_1);
 		
 		JComboBox sdepartment = new JComboBox();
 		sdepartment.setModel(new DefaultComboBoxModel(new String[] {"Computer Science and Engineering", "Electrical and Electronics Engineering"}));
-		sdepartment.setBounds(185, 340, 350, 30);
+		sdepartment.setBounds(185, 380, 350, 30);
 		contentPane.add(sdepartment);
 		
 		JButton sclear = new JButton("CLEAR");
 		sclear.setBackground(new Color(0, 191, 255));
-		sclear.setBounds(400, 400, 117, 35);
+		sclear.setBounds(400, 430, 117, 35);
 		contentPane.add(sclear);
 		
 		JButton btnAlreadyAccountPlease = new JButton("Already Account? Please LogIn..");
-		btnAlreadyAccountPlease.setBounds(195, 457, 323, 25);
+		btnAlreadyAccountPlease.setBounds(195, 480, 323, 25);
 		contentPane.add(btnAlreadyAccountPlease);
+		
+		JLabel lblPassword_1_2_1 = new JLabel("ADDRESS :");
+		lblPassword_1_2_1.setFont(new Font("Dialog", Font.BOLD, 14));
+		lblPassword_1_2_1.setBounds(30, 300, 100, 30);
+		contentPane.add(lblPassword_1_2_1);
+		
+		saddress = new JTextField();
+		saddress.setToolTipText("Enter Your Name");
+		saddress.setColumns(10);
+		saddress.setBounds(185, 300, 515, 30);
+		contentPane.add(saddress);
 	}
 }

@@ -47,6 +47,7 @@ public class StudentLogin extends JFrame {
 		contentPane.setLayout(null);
 		
 		JButton tlohin = new JButton("LOG IN");
+		tlohin.setFont(new Font("Dialog", Font.BOLD, 16));
 		tlohin.setForeground(Color.WHITE);
 		tlohin.setBackground(new Color(30, 144, 255));
 		tlohin.setEnabled(true);
@@ -110,6 +111,8 @@ public class StudentLogin extends JFrame {
 		contentPane.add(sloginpass);
 		
 		JButton tBack = new JButton("BACK");
+		tBack.setFont(new Font("Dialog", Font.BOLD, 16));
+		tBack.setForeground(Color.WHITE);
 		tBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				welcome wc = new welcome();
@@ -125,8 +128,8 @@ public class StudentLogin extends JFrame {
 		JButton tloginmcreate = new JButton("Haven't Account? SignUp here.");
 		tloginmcreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				TeacherSignIn ts = new TeacherSignIn();
-				ts.setVisible(true);
+				StudentSignup ss = new StudentSignup();
+				ss.setVisible(true);
 				setVisible(false);
 			}
 		});
