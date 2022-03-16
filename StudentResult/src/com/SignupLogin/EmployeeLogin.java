@@ -40,6 +40,7 @@ public class EmployeeLogin extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(300, 100, 650, 450);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(65, 105, 225));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -104,13 +105,13 @@ public class EmployeeLogin extends JFrame {
 		});
 		tloginmcreate.setBackground(new Color(255, 218, 185));
 		tloginmcreate.setFont(new Font("Dialog", Font.PLAIN, 12));
-		tloginmcreate.setBounds(40, 327, 300, 20);
+		tloginmcreate.setBounds(20, 327, 270, 20);
 		contentPane.add(tloginmcreate);
 		
 		JLabel label = new JLabel("");
 		label.setBackground(new Color(240, 230, 140));
-		label.setIcon(new ImageIcon(TeacherLogin.class.getResource("/image/staff.jpeg")));
-		label.setBounds(0, 0, 650, 460);
+		label.setIcon(new ImageIcon(EmployeeLogin.class.getResource("/image/brur.jpg")));
+		label.setBounds(300, -20, 350, 450);
 		contentPane.add(label);
 	}
 }

@@ -7,22 +7,27 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.connection.dbConecction;
+import com.mysql.cj.protocol.Resultset;
 import com.resultManagement.welcome;
 
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.ImageIcon;
+import javax.swing.JPasswordField;
 
 public class TeacherLogin extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField tloninemail;
-	private JTextField tloginpass;
+	private JPasswordField tloginpass;
 
 	/**
 	 * Launch the application.
@@ -53,17 +58,6 @@ public class TeacherLogin extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton tlohin = new JButton("LOG IN");
-		tlohin.setForeground(Color.WHITE);
-		tlohin.setBackground(new Color(30, 144, 255));
-		tlohin.setEnabled(true);
-		tlohin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		tlohin.setBounds(110, 190, 117, 35);
-		contentPane.add(tlohin);
-		
 		JLabel lblEmail = new JLabel("EMAIL");
 		lblEmail.setForeground(Color.WHITE);
 		lblEmail.setFont(new Font("Dialog", Font.BOLD, 16));
@@ -73,7 +67,7 @@ public class TeacherLogin extends JFrame {
 		tloninemail = new JTextField();
 		tloninemail.setFont(new Font("Dialog", Font.PLAIN, 12));
 		tloninemail.setToolTipText("Enter Email Address");
-		tloninemail.setBounds(60, 60, 220, 30);
+		tloninemail.setBounds(60, 60, 220, 35);
 		contentPane.add(tloninemail);
 		tloninemail.setColumns(10);
 		
@@ -83,12 +77,45 @@ public class TeacherLogin extends JFrame {
 		lblPassword.setBounds(60, 105, 200, 30);
 		contentPane.add(lblPassword);
 		
-		tloginpass = new JTextField();
-		tloginpass.setToolTipText("Enter Email Address");
-		tloginpass.setFont(new Font("Dialog", Font.PLAIN, 12));
-		tloginpass.setColumns(10);
-		tloginpass.setBounds(60, 140, 220, 30);
+		JButton tlohin = new JButton("LOG IN");
+		tlohin.setForeground(Color.WHITE);
+		tlohin.setBackground(new Color(30, 144, 255));
+		tlohin.setEnabled(true);
+		tlohin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String themail = tloninemail.getText();
+				String thpass = tloginpass.getText();
+				
+				try {
+					dbConecction c = new dbConecction();
+					if(tloninemail.getText().equals("")) {
+						JOptionPane.showMessageDialog(null,"Email field is required."); 
+					}
+					if(tloginpass.getText().equals("")) {
+						JOptionPane.showMessageDialog(null,"Password field is required."); 
+					}
+					String query = "SELECT * FROM teacherinfo WHERE email='"+themail+"' AND password='"+thpass+"'";
+					Resultset res = (Resultset) c.state.executeQuery(query);
+					
+					if(((ResultSet) res).next()) {
+						
+					}
+					else {
+						JOptionPane.showMessageDialog(null,"Incorrect Email and Password!");
+					}
+					
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		tloginpass = new JPasswordField();
+		tloginpass.setToolTipText("Enter Password");
+		tloginpass.setBounds(60, 140, 220, 35);
 		contentPane.add(tloginpass);
+		tlohin.setBounds(60, 202, 220, 35);
+		contentPane.add(tlohin);
 		
 		JButton tBack = new JButton("BACK");
 		tBack.addActionListener(new ActionListener() {
@@ -100,7 +127,7 @@ public class TeacherLogin extends JFrame {
 		});
 		tBack.setEnabled(true);
 		tBack.setBackground(new Color(255, 69, 0));
-		tBack.setBounds(110, 237, 117, 35);
+		tBack.setBounds(60, 245, 220, 35);
 		contentPane.add(tBack);
 		
 		JButton tloginmcreate = new JButton("Haven't Account? SignUp here.");

@@ -24,6 +24,8 @@ public class welcome extends JFrame {
 			}
 		});
 	}
+	
+	// github token: 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
 
 	/**
 	 * Create the frame.
@@ -45,16 +47,7 @@ public class welcome extends JFrame {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(90, 30, 450, 60);
 		contentPane.add(lblNewLabel);
-//			while(true) {
-//				lblNewLabel.setVisible(false);
-//				try {
-//					Theard.sleep(1000);
-//				}catch(Exception e) {}
-//				lblNewLabel.setVisible(true);
-//				try {
-//					Theard.sleep(1000);
-//				}catch(Exception e) {}
-//			}
+		
 		JButton teacherButton = new JButton("Teacher's");
 		teacherButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -113,5 +106,19 @@ public class welcome extends JFrame {
 		lblNewLabel_1.setIcon(new ImageIcon(welcome.class.getResource("/image/BegumRokeyaUniversity.jpg")));
 		lblNewLabel_1.setBounds(0, 0, 650, 400);
 		contentPane.add(lblNewLabel_1);
+		
+		
+		//using thread
+//		setVisible(true);
+//		while(true) {
+//			lblNewLabel.setVisible(false);
+//			try {
+//				Thread.sleep(1000);
+//			}catch(Exception e) {}
+//			lblNewLabel.setVisible(true);
+//			try {
+//				Thread.sleep(1000);
+//			}catch(Exception e) {}
+//		}
 	}
 }
