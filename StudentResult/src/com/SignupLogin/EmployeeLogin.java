@@ -2,18 +2,21 @@ package com.SignupLogin;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.ResultSet;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import com.connection.dbConecction;
+import com.mysql.cj.protocol.Resultset;
 import com.resultManagement.*;
 
 
 public class EmployeeLogin extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField tloninemail;
-	private JTextField tloginpass;
+	private JTextField eloginemail;
+	private JTextField eloginpass;
 
 	/**
 	 * Launch the application.
@@ -45,45 +48,72 @@ public class EmployeeLogin extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton tlohin = new JButton("LOG IN");
-		tlohin.setFont(new Font("Dialog", Font.BOLD, 16));
-		tlohin.setForeground(Color.WHITE);
-		tlohin.setBackground(new Color(30, 144, 255));
-		tlohin.setEnabled(true);
-		tlohin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		tlohin.setBounds(330, 200, 220, 35);
-		contentPane.add(tlohin);
-		
 		JLabel lblEmail = new JLabel("EMAIL");
 		lblEmail.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblEmail.setForeground(Color.BLUE);
+		lblEmail.setForeground(Color.WHITE);
 		lblEmail.setFont(new Font("Dialog", Font.BOLD, 16));
 		lblEmail.setBounds(330, 25, 220, 30);
 		contentPane.add(lblEmail);
 		
-		tloninemail = new JTextField();
-		tloninemail.setFont(new Font("Dialog", Font.PLAIN, 12));
-		tloninemail.setToolTipText("Enter Email Address");
-		tloninemail.setBounds(330, 60, 220, 30);
-		contentPane.add(tloninemail);
-		tloninemail.setColumns(10);
+		eloginemail = new JTextField();
+		eloginemail.setFont(new Font("Dialog", Font.PLAIN, 12));
+		eloginemail.setToolTipText("Enter Email Address");
+		eloginemail.setBounds(330, 60, 220, 30);
+		contentPane.add(eloginemail);
+		eloginemail.setColumns(10);
 		
 		JLabel lblPassword = new JLabel("PASSWORD");
 		lblPassword.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblPassword.setForeground(Color.BLUE);
+		lblPassword.setForeground(Color.WHITE);
 		lblPassword.setFont(new Font("Dialog", Font.BOLD, 16));
 		lblPassword.setBounds(330, 105, 220, 30);
 		contentPane.add(lblPassword);
 		
-		tloginpass = new JTextField();
-		tloginpass.setToolTipText("Enter Password");
-		tloginpass.setFont(new Font("Dialog", Font.PLAIN, 12));
-		tloginpass.setColumns(10);
-		tloginpass.setBounds(330, 140, 220, 30);
-		contentPane.add(tloginpass);
+		eloginpass = new JTextField();
+		eloginpass.setToolTipText("Enter Password");
+		eloginpass.setFont(new Font("Dialog", Font.PLAIN, 12));
+		eloginpass.setColumns(10);
+		eloginpass.setBounds(330, 140, 220, 30);
+		contentPane.add(eloginpass);
+		
+
+		JButton elogin = new JButton("LOG IN");
+		elogin.setFont(new Font("Dialog", Font.BOLD, 16));
+		elogin.setForeground(Color.WHITE);
+		elogin.setBackground(new Color(30, 144, 255));
+		elogin.setEnabled(true);
+		elogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String themail = eloginemail.getText();
+				String thpass = eloginpass.getText();
+				
+				try {
+					dbConecction c = new dbConecction();
+					if(eloginemail.getText().equals("")) {
+						JOptionPane.showMessageDialog(null,"Email field is required."); 
+					}
+					if(eloginpass.getText().equals("")) {
+						JOptionPane.showMessageDialog(null,"Password field is required."); 
+					}
+					String query = "SELECT * FROM teacherinfo WHERE email='"+themail+"' AND password='"+thpass+"'";
+					Resultset res = (Resultset) c.state.executeQuery(query);
+					
+					if(((ResultSet) res).next()) {
+						Ehome eh = new Ehome();
+						eh.setVisible(true);
+						setVisible(false);
+					}
+					else {
+						JOptionPane.showMessageDialog(null,"Incorrect Email and Password!");
+					}
+					
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		elogin.setBounds(330, 200, 220, 35);
+		contentPane.add(elogin);
 		
 		JButton tBack = new JButton("BACK");
 		tBack.setFont(new Font("Dialog", Font.BOLD, 16));
@@ -116,7 +146,7 @@ public class EmployeeLogin extends JFrame {
 		JLabel label = new JLabel("");
 		label.setBackground(new Color(240, 230, 140));
 		label.setIcon(new ImageIcon(EmployeeLogin.class.getResource("/image/stf.png")));
-		label.setBounds(0, -10, 650, 450);
+		label.setBounds(0, -10, 300, 450);
 		contentPane.add(label);
 	}
 }

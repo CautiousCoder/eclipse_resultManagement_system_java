@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.connection.dbConecction;
 import com.mysql.cj.protocol.Resultset;
+import com.resultManagement.Thome;
 import com.resultManagement.welcome;
 
 import java.awt.Font;
@@ -98,7 +99,9 @@ public class TeacherLogin extends JFrame {
 					Resultset res = (Resultset) c.state.executeQuery(query);
 					
 					if(((ResultSet) res).next()) {
-						
+						Thome th = new Thome();
+						th.setVisible(true);
+						setVisible(false);
 					}
 					else {
 						JOptionPane.showMessageDialog(null,"Incorrect Email and Password!");

@@ -6,8 +6,14 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.connection.dbConecction;
+import com.resultManagement.Thome;
+
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -16,6 +22,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class TeacherSignIn extends JFrame {
 
@@ -51,11 +59,6 @@ public class TeacherSignIn extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JButton btnSignup = new JButton("SIGN UP");
-		btnSignup.setBackground(new Color(0, 255, 127));
-		btnSignup.setBounds(250, 350, 120, 40);
-		contentPane.add(btnSignup);
 		
 		JLabel lblTeacher = new JLabel("TEACHER");
 		lblTeacher.setFont(new Font("Dialog", Font.BOLD, 34));
@@ -93,7 +96,7 @@ public class TeacherSignIn extends JFrame {
 		lblDepartment.setBounds(50, 260, 150, 30);
 		contentPane.add(lblDepartment);
 		
-		JLabel lblProfession = new JLabel("PROFESSION :");
+		JLabel lblProfession = new JLabel("DESIGNATION :");
 		lblProfession.setFont(new Font("Dialog", Font.BOLD, 14));
 		lblProfession.setBounds(50, 300, 150, 30);
 		contentPane.add(lblProfession);
@@ -123,26 +126,97 @@ public class TeacherSignIn extends JFrame {
 		rdbtnMale.setBounds(350, 190, 149, 23);
 		contentPane.add(rdbtnMale);
 		
-		JComboBox tcomboBox = new JComboBox();
-		tcomboBox.setModel(new DefaultComboBoxModel(new String[] {"Engineering", "Humanities", "Business"}));
-		tcomboBox.setBounds(190, 220, 400, 30);
-		contentPane.add(tcomboBox);
+		JComboBox tfucalty = new JComboBox();
+		tfucalty.setModel(new DefaultComboBoxModel(new String[] {"Engineering", "Humanities", "Business"}));
+		tfucalty.setBounds(190, 220, 400, 30);
+		contentPane.add(tfucalty);
 		
-		JComboBox tcomboBox_1 = new JComboBox();
-		tcomboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Computer Science and Engineering", "Electronics and Electric Engineering"}));
-		tcomboBox_1.setBounds(190, 260, 400, 30);
-		contentPane.add(tcomboBox_1);
+		JComboBox tdept = new JComboBox();
+		tdept.setModel(new DefaultComboBoxModel(new String[] {"Computer Science and Engineering", "Electronics and Electric Engineering"}));
+		tdept.setBounds(190, 260, 400, 30);
+		contentPane.add(tdept);
 		
-		JComboBox tcomboBox_2 = new JComboBox();
-		tcomboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Professor", "Assistant Professior", "Lecturer"}));
-		tcomboBox_2.setBounds(190, 300, 400, 30);
-		contentPane.add(tcomboBox_2);
+		JComboBox tdesig = new JComboBox();
+		tdesig.setModel(new DefaultComboBoxModel(new String[] {"Professor", "Assistant Professior", "Lecturer"}));
+		tdesig.setBounds(190, 300, 400, 30);
+		contentPane.add(tdesig);
+
+		JButton tSignup = new JButton("SIGN UP");
+		tSignup.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String name = tname.getText();
+				String email = temail.getText();
+				String pass = tpassword.getText();
+				String gender = null;
+				if(tgenderfemale.isSelected()) {
+					gender = "Famele";
+				}
+				else if(rdbtnMale.isSelected()) {
+					gender = "Male";
+				}
+				String faculty =  (String) tfucalty.getSelectedItem();
+				String dept =  (String) tdept.getSelectedItem();
+				String desig =  (String) tdesig.getSelectedItem();
+				
+				try {
+					dbConecction c = new dbConecction();
+					String sql = "CREATE TABLE IF NOT EXISTS teacherinfo " +
+			                   "(name VARCHAR(50), " +
+			                   " email VARCHAR(40) PRIMARY KEY, " + 
+			                   " password VARCHAR(30), " + 
+			                   " gender VARCHAR(10), " + 
+			                   " faculty VARCHAR(30), " + 
+			                   " department VARCHAR(50)"
+			                   + " profession VARCHAR(50))";
+					c.state.execute(sql);
+					
+					String query = "INSERT INTO teacherinfo values('"+name+"','"+email+"','"+pass+"','"+gender+"','"+faculty+"','"+dept+"','"+desig+"')";
+					int x = c.state.executeUpdate(query);
+					if (x == 0) {
+                        JOptionPane.showMessageDialog(tSignup, "This is alredy exist");
+                    } else {
+                    	Thome hom = new Thome();
+                        JOptionPane.showMessageDialog(tSignup,
+                            "Welcome, " + name + ". Your account is sucessfully created");
+                        
+                        hom.setVisible(true);
+                        setVisible(false);
+                        
+                    }
+                    c.conn.close();
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		tSignup.setBackground(new Color(0, 255, 127));
+		tSignup.setBounds(250, 350, 120, 40);
+		contentPane.add(tSignup);
 		
 		JButton talreadyaccount = new JButton("Already Account? Please Log In..");
+		talreadyaccount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TeacherLogin tl = new TeacherLogin();
+				tl.setVisible(true);
+				setVisible(false);
+			}
+		});
 		talreadyaccount.setBounds(250, 410, 282, 25);
 		contentPane.add(talreadyaccount);
 		
 		JButton tClear = new JButton("CLEAR");
+		tClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				tname.setText("");
+				temail.setText("");
+				tpassword.setText("");
+				tfucalty.setSelectedIndex(0);
+				tdept.setSelectedIndex(0);
+				tdesig.setSelectedIndex(0);
+				tgenderfemale.setSelected(false);
+				rdbtnMale.setSelected(false);
+			}
+		});
 		tClear.setBackground(new Color(0, 255, 127));
 		tClear.setBounds(413, 350, 120, 40);
 		contentPane.add(tClear);
