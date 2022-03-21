@@ -130,7 +130,7 @@ public class StudentSignup extends JFrame {
 		contentPane.add(sreg);
 		
 		JComboBox sses = new JComboBox();
-		sses.setModel(new DefaultComboBoxModel(new String[] {"2015 - 16", "2016 - 17", "2017 - 18", "2018 -19", "2019 - 20", "2020 - 21", "2021 - 22"}));
+		sses.setModel(new DefaultComboBoxModel(new String[] {"2015 - 16", "2016 - 17", "2017 - 18", "2018 - 19", "2019 - 20", "2020 - 21", "2021 - 22"}));
 		sses.setBounds(550, 140, 150, 30);
 		contentPane.add(sses);
 		

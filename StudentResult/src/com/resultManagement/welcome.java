@@ -25,7 +25,7 @@ public class welcome extends JFrame {
 		});
 	}
 	
-	// github token: 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
+	// github token: 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
 
 	/**
 	 * Create the frame.
