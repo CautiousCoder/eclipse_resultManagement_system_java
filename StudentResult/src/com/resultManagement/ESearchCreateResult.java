@@ -79,16 +79,9 @@ public class ESearchCreateResult extends JFrame {
 				String year = (String) cryear.getSelectedItem();
 				String semister = (String) crsemister.getSelectedItem();
 				try {
-					dbConecction c = new dbConecction();
-					String sql = "CREATE TABLE IF NOT EXISTS"+ year+semister +
-			                   "(id VARCHAR(10) PRIMARY KEY, " +
-			                   "(name VARCHAR(50), " +
-			                   " email DOUBLE(4,2) , " + 
-			                   " password VARCHAR(30), " + 
-			                   " gender VARCHAR(10), " + 
-			                   " faculty VARCHAR(30), " + 
-			                   " department VARCHAR(50))";
-					c.state.execute(sql);
+					ESResultCreate esr = new ESResultCreate(year, semister);
+					esr.setVisible(true);
+					setVisible(false);
 					
 				} catch(Exception e){
 					e.printStackTrace();
@@ -106,6 +99,19 @@ public class ESearchCreateResult extends JFrame {
 		lblNewLabel_1.setFont(new Font("Dialog", Font.BOLD, 24));
 		lblNewLabel_1.setBounds(210, 10, 240, 40);
 		contentPane.add(lblNewLabel_1);
+		
+		JButton btnBack = new JButton("BACK");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Ehome bem = new Ehome();
+				bem.setVisible(true);
+				setVisible(false);
+			}
+		});
+		btnBack.setForeground(Color.WHITE);
+		btnBack.setFont(new Font("Dialog", Font.BOLD, 24));
+		btnBack.setBackground(new Color(250, 128, 114));
+		btnBack.setBounds(240, 254, 150, 40);
+		contentPane.add(btnBack);
 	}
-
 }
