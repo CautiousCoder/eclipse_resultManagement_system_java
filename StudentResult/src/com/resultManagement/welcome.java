@@ -25,7 +25,7 @@ public class welcome extends JFrame {
 		});
 	}
 	
-	// github token: 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
+	// github token: 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
 
 	/**
 	 * Create the frame.
@@ -106,6 +106,7 @@ public class welcome extends JFrame {
 		lblNewLabel_1.setIcon(new ImageIcon(welcome.class.getResource("/image/BegumRokeyaUniversity.jpg")));
 		lblNewLabel_1.setBounds(0, 0, 650, 400);
 		contentPane.add(lblNewLabel_1);
+		
 		
 		
 		//using thread

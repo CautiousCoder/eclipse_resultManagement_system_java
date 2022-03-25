@@ -130,9 +130,11 @@ public class TeacherShowStudent extends JFrame {
 				ss.setVisible(true);
 				setVisible(false);
 			}
+			
 		});
 		showBack.setFont(new Font("Dialog", Font.BOLD, 14));
 		showBack.setBounds(505, 575, 117, 30);
 		contentPane.add(showBack);
 	}
+	
 }

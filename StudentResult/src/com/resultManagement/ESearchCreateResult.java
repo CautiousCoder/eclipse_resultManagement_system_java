@@ -87,6 +87,7 @@ public class ESearchCreateResult extends JFrame {
 					e.printStackTrace();
 				}
 			}
+			
 		});
 		ecreateresultsubmit.setForeground(new Color(255, 255, 255));
 		ecreateresultsubmit.setBackground(new Color(30, 144, 255));

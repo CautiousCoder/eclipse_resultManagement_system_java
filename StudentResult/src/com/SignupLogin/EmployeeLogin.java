@@ -103,6 +103,7 @@ public class EmployeeLogin extends JFrame {
 						eh.setVisible(true);
 						setVisible(false);
 					}
+					
 					else {
 						JOptionPane.showMessageDialog(null,"Incorrect Email and Password!");
 					}

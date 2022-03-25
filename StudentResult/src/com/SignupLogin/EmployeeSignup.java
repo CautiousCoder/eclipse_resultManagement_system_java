@@ -151,6 +151,7 @@ public class EmployeeSignup extends JFrame {
                         hom.setVisible(true);
                         setVisible(false);
                         
+                        
                     }
                     c.conn.close();
 				}catch(Exception e) {
