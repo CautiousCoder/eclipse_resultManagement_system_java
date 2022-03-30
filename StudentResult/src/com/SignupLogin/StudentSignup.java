@@ -1,6 +1,5 @@
 package com.SignupLogin;
 
-import java.awt.BorderLayout;
 import java.awt.*;
 
 import javax.swing.*;
@@ -9,6 +8,8 @@ import javax.swing.border.EmptyBorder;
 import com.connection.dbConecction;
 import com.resultManagement.*;
 import java.awt.event.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StudentSignup extends JFrame {
 
@@ -25,6 +26,8 @@ public class StudentSignup extends JFrame {
 	private JTextField mphone;
 	private JTextField saddress;
 
+	
+	String email;
 	/**
 	 * Launch the application.
 	 */
@@ -47,7 +50,7 @@ public class StudentSignup extends JFrame {
 	public StudentSignup() {
 		setTitle("Student SignUp");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(300, 100, 750, 550);
+		setBounds(300, 100, 750, 580);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -91,7 +94,28 @@ public class StudentSignup extends JFrame {
 		sphone.setBounds(135, 100, 300, 30);
 		contentPane.add(sphone);
 		
+		JLabel erroremail = new JLabel("");
+		erroremail.setForeground(Color.RED);
+		erroremail.setHorizontalAlignment(SwingConstants.CENTER);
+		erroremail.setBounds(135, 165, 300, 20);
+		contentPane.add(erroremail);
+		
 		semail = new JTextField();
+		semail.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				String PATTERN = "^[A-Za-z0-9+_.-]+@(.+)$";
+				Pattern patt =Pattern.compile(PATTERN);
+				Matcher match = patt.matcher(semail.getText());
+				if(!match.matches()) {
+					erroremail.setText("Invalid Email.!");
+					return;
+				} else {
+					email = semail.getText();
+					erroremail.setText(null);
+				}
+			}
+		});
 		semail.setToolTipText("Enter Email");
 		semail.setColumns(10);
 		semail.setBounds(135, 140, 300, 30);
@@ -226,7 +250,7 @@ public class StudentSignup extends JFrame {
 		ssignup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String name = sname.getText();
-				String email = semail.getText();
+				email = semail.getText();
 				String phone = sphone.getText();
 				String pass = spassword.getText();
 				String id = sid.getText();
@@ -248,6 +272,15 @@ public class StudentSignup extends JFrame {
 				String dept = (String) sdepartment.getSelectedItem();
 				
 				try {
+					if(sid.getText().equals("")) {
+						JOptionPane.showMessageDialog(null,"Email field is required."); 
+					}
+					if(semail.getText().equals("")) {
+						JOptionPane.showMessageDialog(null,"Email field is required."); 
+					}
+					if(spassword.getText().equals("")) {
+						JOptionPane.showMessageDialog(null,"Password field is required."); 
+					}
 					dbConecction c = new dbConecction();
 					String sql = "CREATE TABLE IF NOT EXISTS studentinfo " +
 			                   "(id VARCHAR(10) NOT NULL PRIMARY KEY," + 

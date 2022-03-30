@@ -25,7 +25,7 @@ public class welcome extends JFrame {
 		});
 	}
 	
-	// github token: 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
+	// github token: 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
 
 	/**
 	 * Create the frame.
@@ -34,7 +34,7 @@ public class welcome extends JFrame {
 		setFont(new Font("Dialog", Font.BOLD, 38));
 		setTitle("WellCome");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(300, 100, 650, 400);
+		setBounds(300, 100, 770, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(null);
 		setContentPane(contentPane);
@@ -42,10 +42,10 @@ public class welcome extends JFrame {
 
 		
 		JLabel lblNewLabel = new JLabel("WELLCOME");
-		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 62));
-		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 66));
+		lblNewLabel.setForeground(new Color(0, 0, 128));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(90, 30, 450, 60);
+		lblNewLabel.setBounds(150, 30, 500, 70);
 		contentPane.add(lblNewLabel);
 		
 		JButton teacherButton = new JButton("Teacher's");
@@ -56,10 +56,29 @@ public class welcome extends JFrame {
 				setVisible(false);
 			}
 		});
+		
+		JLabel lblTo = new JLabel("TO");
+		lblTo.setForeground(new Color(255, 0, 255));
+		lblTo.setFont(new Font("Dialog", Font.BOLD, 28));
+		lblTo.setBounds(350, 105, 70, 40);
+		contentPane.add(lblTo);
+		
+		JLabel lblNewLabel_2 = new JLabel("BEGUM ROKEYA UNIVERSITY, RANGPUR");
+		lblNewLabel_2.setForeground(new Color(255, 255, 255));
+		lblNewLabel_2.setFont(new Font("Dialog", Font.BOLD, 32));
+		lblNewLabel_2.setBounds(12, 150, 746, 60);
+		contentPane.add(lblNewLabel_2);
+		
+		JLabel lblLogInAs = new JLabel("LOG IN AS : ");
+		lblLogInAs.setFont(new Font("Dialog", Font.BOLD, 20));
+		lblLogInAs.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLogInAs.setForeground(new Color(255, 0, 0));
+		lblLogInAs.setBounds(250, 235, 200, 30);
+		contentPane.add(lblLogInAs);
 		teacherButton.setToolTipText("If you Teacher please click..");
 		teacherButton.setBackground(new Color(0, 206, 209));
 		teacherButton.setFont(new Font("Dialog", Font.BOLD, 24));
-		teacherButton.setBounds(220, 115, 200, 40);
+		teacherButton.setBounds(250, 280, 200, 40);
 		contentPane.add(teacherButton);
 		
 		JButton btnEmployee = new JButton("Employee");
@@ -72,8 +91,8 @@ public class welcome extends JFrame {
 		});
 		btnEmployee.setToolTipText("If you Teacher employee click..");
 		btnEmployee.setFont(new Font("Dialog", Font.BOLD, 24));
-		btnEmployee.setBackground(new Color(65, 105, 225));
-		btnEmployee.setBounds(220, 170, 200, 40);
+		btnEmployee.setBackground(new Color(255, 0, 255));
+		btnEmployee.setBounds(250, 340, 200, 40);
 		contentPane.add(btnEmployee);
 		
 		JButton btnStudent = new JButton("Student");
@@ -87,7 +106,7 @@ public class welcome extends JFrame {
 		btnStudent.setToolTipText("If you are Student please click..");
 		btnStudent.setFont(new Font("Dialog", Font.BOLD, 24));
 		btnStudent.setBackground(new Color(50, 205, 50));
-		btnStudent.setBounds(220, 225, 200, 40);
+		btnStudent.setBounds(250, 400, 200, 40);
 		contentPane.add(btnStudent);
 		
 		JButton btnExit = new JButton("EXIT");
@@ -99,12 +118,12 @@ public class welcome extends JFrame {
 		btnExit.setToolTipText("");
 		btnExit.setFont(new Font("Dialog", Font.BOLD, 24));
 		btnExit.setBackground(new Color(255, 255, 240));
-		btnExit.setBounds(265, 310, 100, 40);
+		btnExit.setBounds(300, 470, 100, 40);
 		contentPane.add(btnExit);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setIcon(new ImageIcon(welcome.class.getResource("/image/BegumRokeyaUniversity.jpg")));
-		lblNewLabel_1.setBounds(0, 0, 650, 400);
+		lblNewLabel_1.setIcon(new ImageIcon(welcome.class.getResource("/image/brur.jpg")));
+		lblNewLabel_1.setBounds(0, -15, 780, 600);
 		contentPane.add(lblNewLabel_1);
 		
 		

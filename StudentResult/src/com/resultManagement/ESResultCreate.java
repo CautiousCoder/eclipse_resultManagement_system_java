@@ -366,7 +366,7 @@ public class ESResultCreate extends JFrame {
 						fetchquery = "SELECT id,name,CSE1101,CSE1102,EEE1121,EEE1122,ENG1123,MAT1124,PHY1125 FROM "+passyear+passsemester;
 					}
 					else if(s1.equals(passyear+passsemester)) {
-						fetchquery = "SELECT id,name,CSE1201,CSE1202,CSE1203,EEE1221,EEE1222,MAT1223,CHM1224,CHM1225 FROM "+passyear+passsemester;
+						fetchquery = "SELECT id,name,CSE1201,CSE1202,CSE1203,CSE1204,EEE1221,EEE1222,MAT1223,CHM1224,CHM1225 FROM "+passyear+passsemester;
 					}
 					else if(s2.equals(passyear+passsemester)) {
 						fetchquery = "SELECT id,name,CSE2101,CSE2102,CSE2103,CSE2104,CSE2105,MAT2122,STA2122,BUS2123 FROM "+passyear+passsemester;
@@ -434,8 +434,9 @@ public class ESResultCreate extends JFrame {
 				CheckMark ck7 = new CheckMark(Double.parseDouble(eightsub.getText()));
 				CheckMark ck8 = new CheckMark(Double.parseDouble(ninethsub.getText()));
 				CheckMark ck9 = new CheckMark(Double.parseDouble(tenthsub.getText()));
+				String status = null;
 				GpaResult ss = new GpaResult();
-				double total,sgpa,cgpa;
+				double total,sgpa,cgpa,tfail;
 				
 				
 				try {
@@ -454,14 +455,21 @@ public class ESResultCreate extends JFrame {
 				                   " PHY1125 VARCHAR(5), " +
 				                   " SGPA DOUBLE(6,2), " +
 				                   " CGPA DOUBLE(6,2), " +
+				                   " STATUS VARCHAR(15), " +
 				                   " YEAR VARCHAR(5), " +
 				                   " SEMESTER VARCHAR(5))";
-						total = ss.strlt(ck.gpa, 3.00)+ss.strlt(ck1.gpa, 1.5)+ss.strlt(ck2.gpa, 3.00)+ss.strlt(ck3.gpa, 1.50)+ss.strlt(ck4.gpa, 3.00)+ss.strlt(ck5.gpa, 3.00)+ss.strlt(ck6.gpa, 3);
+						total = ss.strlt(ck.gpa, 3.00)+ss.strlt(ck1.gpa, 1.50)+ss.strlt(ck2.gpa, 3.00)+ss.strlt(ck3.gpa, 1.50)+ss.strlt(ck4.gpa, 3.00)+ss.strlt(ck5.gpa, 3.00)+ss.strlt(ck6.gpa, 3.00);
 						sgpa = total/18.00;
 						cgpa = sgpa;
 						
-						
-						query = "INSERT INTO "+ passyear+passsemester +"(id,name,CSE1101,CSE1102,EEE1121,EEE1122,ENG1123,MAT1124,PHY1125,SGPA,CGPA,YEAR,SEMESTER) VALUES('"+id+"','"+name+"','"+ck.a+"','"+ck1.a+"','"+ck2.a+"','"+ck3.a+"','"+ck4.a+"','"+ck5.a+"','"+ck6.a+"','"+String.format("%.2f", sgpa)+"','"+String.format("%.2f", cgpa)+"','"+passyear+"','"+passsemester+"')";
+						tfail =ss.fail(ck.gpa, 3.00)+ss.fail(ck1.gpa, 1.50)+ss.fail(ck2.gpa, 3.00)+ss.fail(ck3.gpa, 1.50)+ss.fail(ck4.gpa, 3.00)+ss.fail(ck5.gpa, 3.00)+ss.fail(ck6.gpa, 3.00);
+						if(tfail>=6 || sgpa<2.25) {
+							status = "Not Promoted";
+						}
+						else {
+							status = "Promoted";
+						}
+						query = "INSERT INTO "+ passyear+passsemester +"(id,name,CSE1101,CSE1102,EEE1121,EEE1122,ENG1123,MAT1124,PHY1125,SGPA,CGPA,STATUS,YEAR,SEMESTER) VALUES('"+id+"','"+name+"','"+ck.a+"','"+ck1.a+"','"+ck2.a+"','"+ck3.a+"','"+ck4.a+"','"+ck5.a+"','"+ck6.a+"','"+String.format("%.2f", sgpa)+"','"+String.format("%.2f", cgpa)+"','"+status+"','"+passyear+"','"+passsemester+"')";
 						
 					}
 					else if(s1.equals(passyear+passsemester)) {
@@ -479,6 +487,7 @@ public class ESResultCreate extends JFrame {
 				                   " CHM1225 VARCHAR(5), " +
 				                   " SGPA DOUBLE(6,2), " +
 				                   " CGPA DOUBLE(6,2), " +
+				                   " STATUS VARCHAR(15), " +
 				                   " YEAR VARCHAR(5), " +
 				                   " SEMESTER VARCHAR(5))";
 						String fquery = "SELECT CGPA FROM 1st1st WHERE id="+id;
@@ -488,7 +497,14 @@ public class ESResultCreate extends JFrame {
 						sgpa = total/19.00;
 						cgpa = (sgpa+ss.getsgpa(fquery))/2;
 						
-						query = "INSERT INTO "+ passyear+passsemester +"(id,name,CSE1201,CSE1202,CSE1203,CSE1204,EEE1221,EEE1222,MAT1223,CHM1224,CHM1225,SGPA,CGPA,YEAR,SEMESTER) values('"+id+"','"+name+"','"+ck.a+"','"+ck1.a+"','"+ck2.a+"','"+ck3.a+"','"+ck4.a+"','"+ck5.a+"','"+ck6.a+"','"+ck7.a+"','"+ck8.a+"','"+String.format("%.2f", sgpa)+"','"+String.format("%.2f", cgpa)+"','"+passyear+"','"+passsemester+"')";
+						tfail =ss.fail(ck.gpa, 3.00)+ss.fail(ck1.gpa, 1.50)+ss.fail(ck2.gpa, 1.50)+ss.fail(ck3.gpa, 1.00)+ss.fail(ck4.gpa, 3.00)+ss.fail(ck5.gpa, 1.50)+ss.fail(ck6.gpa, 3.00)+ss.fail(ck7.gpa, 3.00)+ss.fail(ck8.gpa, 1.50);
+						if(tfail>=6 || sgpa<2.25) {
+							status = "Not Promoted";
+						}
+						else {
+							status = "Promoted";
+						}
+						query = "INSERT INTO "+ passyear+passsemester +"(id,name,CSE1201,CSE1202,CSE1203,CSE1204,EEE1221,EEE1222,MAT1223,CHM1224,CHM1225,SGPA,CGPA,STATUS,YEAR,SEMESTER) values('"+id+"','"+name+"','"+ck.a+"','"+ck1.a+"','"+ck2.a+"','"+ck3.a+"','"+ck4.a+"','"+ck5.a+"','"+ck6.a+"','"+ck7.a+"','"+ck8.a+"','"+String.format("%.2f", sgpa)+"','"+String.format("%.2f", cgpa)+"','"+status+"','"+passyear+"','"+passsemester+"')";
 						
 					}
 					else if(s2.equals(passyear+passsemester)) {
@@ -505,6 +521,7 @@ public class ESResultCreate extends JFrame {
 				                   " BUS2123 VARCHAR(5), " +
 				                   " SGPA DOUBLE(6,2), " +
 				                   " CGPA DOUBLE(6,2), " +
+				                   " STATUS VARCHAR(15), " +
 				                   " YEAR VARCHAR(5), " +
 				                   " SEMESTER VARCHAR(5))";
 						String fquery = "SELECT CGPA FROM 1st1st WHERE id="+id;
@@ -514,7 +531,15 @@ public class ESResultCreate extends JFrame {
 						sgpa = total/21.00;
 						cgpa = (sgpa+ss.getsgpa(fquery)+ss.getsgpa(fquery1))/3;
 						
-						query = "INSERT INTO "+ passyear+passsemester +"(id,name,CSE2101,CSE2102,CSE2103,CSE2104,CSE2105,MAT2122,STA2122,BUS2123,SGPA,CGPA,YEAR,SEMESTER) values('"+id+"','"+name+"','"+ck.a+"','"+ck1.a+"','"+ck2.a+"','"+ck3.a+"','"+ck4.a+"','"+ck5.a+"','"+ck6.a+"','"+ck7.a+"','"+String.format("%.2f", sgpa)+"','"+String.format("%.2f", cgpa)+"','"+passyear+"','"+passsemester+"')";
+						tfail =ss.fail(ck.gpa, 3.00)+ss.fail(ck1.gpa, 3.00)+ss.fail(ck2.gpa, 1.50)+ss.fail(ck3.gpa, 3.00)+ss.fail(ck4.gpa, 1.50)+ss.fail(ck5.gpa, 3.00)+ss.fail(ck6.gpa, 3.00)+ss.fail(ck7.gpa, 3.00);
+						if(tfail>=6 || sgpa<2.25) {
+							status = "Not Promoted";
+							sgpa = 0.00;
+						}
+						else {
+							status = "Promoted";
+						}
+						query = "INSERT INTO "+ passyear+passsemester +"(id,name,CSE2101,CSE2102,CSE2103,CSE2104,CSE2105,MAT2122,STA2122,BUS2123,SGPA,CGPA,STATUS,YEAR,SEMESTER) values('"+id+"','"+name+"','"+ck.a+"','"+ck1.a+"','"+ck2.a+"','"+ck3.a+"','"+ck4.a+"','"+ck5.a+"','"+ck6.a+"','"+ck7.a+"','"+String.format("%.2f", sgpa)+"','"+String.format("%.2f", cgpa)+"','"+status+"','"+passyear+"','"+passsemester+"')";
 						
 					}
 					else if(s3.equals(passyear+passsemester)) {
@@ -531,6 +556,7 @@ public class ESResultCreate extends JFrame {
 				                   " CSE2207 VARCHAR(5), " +
 				                   " SGPA DOUBLE(6,2), " +
 				                   " CGPA DOUBLE(6,2), " +
+				                   " STATUS VARCHAR(15), " +
 				                   " YEAR VARCHAR(5), " +
 				                   " SEMESTER VARCHAR(5))";
 						String fquery = "SELECT CGPA FROM 1st1st WHERE id="+id;
@@ -541,7 +567,15 @@ public class ESResultCreate extends JFrame {
 						sgpa = total/17.00;
 						cgpa = (sgpa+ss.getsgpa(fquery)+ss.getsgpa(fquery1)+ss.getsgpa(fquery2))/4;
 						
-						query = "INSERT INTO "+ passyear+passsemester +"(id,name,CSE2201,CSE2202,CSE2203,CSE2204,CSE2205,ECO2222,SOC2223,CSE2207,SGPA,CGPA,YEAR,SEMESTER) values('"+id+"','"+name+"','"+ck.a+"','"+ck1.a+"','"+ck2.a+"','"+ck3.a+"','"+ck4.a+"','"+ck5.a+"','"+ck6.a+"','"+ck7.a+"','"+String.format("%.2f", sgpa)+"','"+String.format("%.2f", cgpa)+"','"+passyear+"','"+passsemester+"')";
+						tfail =ss.fail(ck.gpa, 3.00)+ss.fail(ck1.gpa, 1.50)+ss.fail(ck2.gpa, 3.00)+ss.fail(ck3.gpa, 1.50)+ss.fail(ck4.gpa, 3.00)+ss.fail(ck5.gpa, 2.00)+ss.fail(ck6.gpa, 2.00)+ss.fail(ck7.gpa, 1.00);
+						if(tfail>=6 || sgpa<2.25) {
+							status = "Not Promoted";
+							sgpa = 0.00;
+						}
+						else {
+							status = "Promoted";
+						}
+						query = "INSERT INTO "+ passyear+passsemester +"(id,name,CSE2201,CSE2202,CSE2203,CSE2204,CSE2205,ECO2222,SOC2223,CSE2207,SGPA,CGPA,STATUS,YEAR,SEMESTER) values('"+id+"','"+name+"','"+ck.a+"','"+ck1.a+"','"+ck2.a+"','"+ck3.a+"','"+ck4.a+"','"+ck5.a+"','"+ck6.a+"','"+ck7.a+"','"+String.format("%.2f", sgpa)+"','"+String.format("%.2f", cgpa)+"','"+status+"','"+passyear+"','"+passsemester+"')";
 						
 					}
 					else if(s4.equals(passyear+passsemester)) {
@@ -559,6 +593,7 @@ public class ESResultCreate extends JFrame {
 				                   " MAT3121 VARCHAR(5), " +
 				                   " SGPA DOUBLE(6,2), " +
 				                   " CGPA DOUBLE(6,2), " +
+				                   " STATUS VARCHAR(15), " +
 				                   " YEAR VARCHAR(5), " +
 				                   " SEMESTER VARCHAR(5))";
 						String fquery = "SELECT CGPA FROM 1st1st WHERE id="+id;
@@ -570,7 +605,15 @@ public class ESResultCreate extends JFrame {
 						sgpa = total/21.00;
 						cgpa = (sgpa+ss.getsgpa(fquery)+ss.getsgpa(fquery1)+ss.getsgpa(fquery2)+ss.getsgpa(fquery3))/5;
 						
-						query = "INSERT INTO "+ passyear+passsemester +"(id,name,CSE3101,CSE3102,CSE3103,CSE3104,CSE3105,CSE3106,CSE3107,CSE3108,MAT3121,SGPA,CGPA,YEAR,SEMESTER) values('"+id+"','"+name+"','"+ck.a+"','"+ck1.a+"','"+ck2.a+"','"+ck3.a+"','"+ck4.a+"','"+ck5.a+"','"+ck6.a+"','"+ck7.a+"','"+ck8.a+"','"+String.format("%.2f", sgpa)+"','"+String.format("%.2f", cgpa)+"','"+passyear+"','"+passsemester+"')";
+						tfail =ss.fail(ck.gpa, 3.00)+ss.fail(ck1.gpa, 1.50)+ss.fail(ck2.gpa, 3.00)+ss.fail(ck3.gpa, 1.50)+ss.fail(ck4.gpa, 3.00)+ss.fail(ck5.gpa, 1.50)+ss.fail(ck6.gpa, 3.00)+ss.fail(ck7.gpa, 1.50)+ss.fail(ck8.gpa, 3.00);
+						if(tfail>=6 || sgpa<2.25) {
+							status = "Not Promoted";
+							sgpa = 0.00;
+						}
+						else {
+							status = "Promoted";
+						}
+						query = "INSERT INTO "+ passyear+passsemester +"(id,name,CSE3101,CSE3102,CSE3103,CSE3104,CSE3105,CSE3106,CSE3107,CSE3108,MAT3121,SGPA,CGPA,STATUS,YEAR,SEMESTER) values('"+id+"','"+name+"','"+ck.a+"','"+ck1.a+"','"+ck2.a+"','"+ck3.a+"','"+ck4.a+"','"+ck5.a+"','"+ck6.a+"','"+ck7.a+"','"+ck8.a+"','"+String.format("%.2f", sgpa)+"','"+String.format("%.2f", cgpa)+"','"+status+"','"+passyear+"','"+passsemester+"')";
 						
 					}
 					else if(s5.equals(passyear+passsemester)) {
@@ -589,6 +632,7 @@ public class ESResultCreate extends JFrame {
 				                   " GEN3221 VARCHAR(5), " +
 				                   " SGPA DOUBLE(6,2), " +
 				                   " CGPA DOUBLE(6,2), " +
+				                   " STATUS VARCHAR(15), " +
 				                   " YEAR VARCHAR(5), " +
 				                   " SEMESTER VARCHAR(5))";
 						String fquery = "SELECT CGPA FROM 1st1st WHERE id="+id;
@@ -601,7 +645,15 @@ public class ESResultCreate extends JFrame {
 						sgpa = total/22.50;
 						cgpa = (sgpa+ss.getsgpa(fquery)+ss.getsgpa(fquery1)+ss.getsgpa(fquery2)+ss.getsgpa(fquery3)+ss.getsgpa(fquery4))/6;
 						
-						query = "INSERT INTO "+ passyear+passsemester +"(id,name,CSE3201,CSE3202,CSE3203,CSE3204,CSE3205,CSE3206,CSE3207,CSE3208,CSE3209,GEN3221,SGPA,CGPA,YEAR,SEMESTER) values('"+id+"','"+name+"','"+ck.a+"','"+ck1.a+"','"+ck2.a+"','"+ck3.a+"','"+ck4.a+"','"+ck5.a+"','"+ck6.a+"','"+ck7.a+"','"+ck8.a+"','"+ck9.a+"','"+String.format("%.2f", sgpa)+"','"+String.format("%.2f", cgpa)+"','"+passyear+"','"+passsemester+"')";
+						tfail =ss.fail(ck.gpa, 3.00)+ss.fail(ck1.gpa, 1.50)+ss.fail(ck2.gpa, 3.00)+ss.fail(ck3.gpa, 3.00)+ss.fail(ck4.gpa, 1.50)+ss.fail(ck5.gpa, 3.00)+ss.fail(ck6.gpa, 1.50)+ss.fail(ck7.gpa, 3.00)+ss.fail(ck8.gpa, 1.00)+ss.fail(ck9.gpa, 2.00);
+						if(tfail>=6 || sgpa<2.25) {
+							status = "Not Promoted";
+							sgpa = 0.00;
+						}
+						else {
+							status = "Promoted";
+						}
+						query = "INSERT INTO "+ passyear+passsemester +"(id,name,CSE3201,CSE3202,CSE3203,CSE3204,CSE3205,CSE3206,CSE3207,CSE3208,CSE3209,GEN3221,SGPA,CGPA,STATUS,YEAR,SEMESTER) values('"+id+"','"+name+"','"+ck.a+"','"+ck1.a+"','"+ck2.a+"','"+ck3.a+"','"+ck4.a+"','"+ck5.a+"','"+ck6.a+"','"+ck7.a+"','"+ck8.a+"','"+ck9.a+"','"+String.format("%.2f", sgpa)+"','"+String.format("%.2f", cgpa)+"','"+status+"','"+passyear+"','"+passsemester+"')";
 						
 					}
 					else if(s6.equals(passyear+passsemester)) {
@@ -620,6 +672,7 @@ public class ESResultCreate extends JFrame {
 				                   " CSE4110 VARCHAR(5), " +
 				                   " SGPA DOUBLE(6,2), " +
 				                   " CGPA DOUBLE(6,2), " +
+				                   " STATUS VARCHAR(15), " +
 				                   " YEAR VARCHAR(5), " +
 				                   " SEMESTER VARCHAR(5))";
 						String fquery = "SELECT CGPA FROM 1st1st WHERE id="+id;
@@ -633,7 +686,15 @@ public class ESResultCreate extends JFrame {
 						sgpa = total/22.00;
 						cgpa = (sgpa+ss.getsgpa(fquery)+ss.getsgpa(fquery1)+ss.getsgpa(fquery2)+ss.getsgpa(fquery3)+ss.getsgpa(fquery4)+ss.getsgpa(fquery5))/7;
 						
-						query = "INSERT INTO "+ passyear+passsemester +"(id,name,CSE4101,CSE4102,CSE4103,CSE4104,CSE4105,CSE4106,CSE4107,CSE4108,CSE4109,CSE4110,SGPA,CGPA,YEAR,SEMESTER) values('"+id+"','"+name+"','"+ck.a+"','"+ck1.a+"','"+ck2.a+"','"+ck3.a+"','"+ck4.a+"','"+ck5.a+"','"+ck6.a+"','"+ck7.a+"','"+ck8.a+"','"+ck9.a+"','"+String.format("%.2f", sgpa)+"','"+String.format("%.2f", cgpa)+"','"+passyear+"','"+passsemester+"')";
+						tfail =ss.fail(ck.gpa, 2.00)+ss.fail(ck1.gpa, 3.00)+ss.fail(ck2.gpa, 1.50)+ss.fail(ck3.gpa, 3.00)+ss.fail(ck4.gpa, 1.50)+ss.fail(ck5.gpa, 3.00)+ss.fail(ck6.gpa, 3.00)+ss.fail(ck7.gpa, 1.50)+ss.fail(ck8.gpa, 3.00)+ss.fail(ck9.gpa, 0.50);
+						if(tfail>=6 || sgpa<2.25) {
+							status = "Not Promoted";
+							sgpa = 0.00;
+						}
+						else {
+							status = "Promoted";
+						}
+						query = "INSERT INTO "+ passyear+passsemester +"(id,name,CSE4101,CSE4102,CSE4103,CSE4104,CSE4105,CSE4106,CSE4107,CSE4108,CSE4109,CSE4110,SGPA,CGPA,STATUS,YEAR,SEMESTER) values('"+id+"','"+name+"','"+ck.a+"','"+ck1.a+"','"+ck2.a+"','"+ck3.a+"','"+ck4.a+"','"+ck5.a+"','"+ck6.a+"','"+ck7.a+"','"+ck8.a+"','"+ck9.a+"','"+String.format("%.2f", sgpa)+"','"+String.format("%.2f", cgpa)+"','"+status+"','"+passyear+"','"+passsemester+"')";
 						
 					}
 					else if(s7.equals(passyear+passsemester)) {
@@ -652,6 +713,7 @@ public class ESResultCreate extends JFrame {
 				                   " CSE4210 VARCHAR(5), " +
 				                   " SGPA DOUBLE(6,2), " +
 				                   " CGPA DOUBLE(6,2), " +
+				                   " STATUS VARCHAR(15), " +
 				                   " YEAR VARCHAR(5), " +
 				                   " SEMESTER VARCHAR(5))";
 						String fquery = "SELECT CGPA FROM 1st1st WHERE id="+id;
@@ -666,7 +728,15 @@ public class ESResultCreate extends JFrame {
 						sgpa = total/22.00;
 						cgpa = (sgpa+ss.getsgpa(fquery)+ss.getsgpa(fquery1)+ss.getsgpa(fquery2)+ss.getsgpa(fquery3)+ss.getsgpa(fquery4)+ss.getsgpa(fquery5)+ss.getsgpa(fquery6))/8;
 						
-						query = "INSERT INTO "+ passyear+passsemester +"(id,name,CSE4201,CSE4202,CSE4203,CSE4204,CSE4205,CSE4206,CSE4207,CSE4208,CSE4209,CSE4210,SGPA,CGPA,YEAR,SEMESTER) values('"+id+"','"+name+"','"+ck.a+"','"+ck1.a+"','"+ck2.a+"','"+ck3.a+"','"+ck4.a+"','"+ck5.a+"','"+ck6.a+"','"+ck7.a+"','"+ck8.a+"','"+ck9.a+"','"+String.format("%.2f", sgpa)+"','"+String.format("%.2f", cgpa)+"','"+passyear+"','"+passsemester+"')";
+						tfail =ss.fail(ck.gpa, 3.00)+ss.fail(ck1.gpa, 3.00)+ss.fail(ck2.gpa, 1.50)+ss.fail(ck3.gpa, 3.00)+ss.fail(ck4.gpa, 1.50)+ss.fail(ck5.gpa, 3.00)+ss.fail(ck6.gpa, 1.50)+ss.fail(ck7.gpa, 3.00)+ss.fail(ck8.gpa, 1.50)+ss.fail(ck9.gpa, 1.00);
+						if(tfail>=6 || sgpa<2.25) {
+							status = "Not Promoted";
+							sgpa = 0.00;
+						}
+						else {
+							status = "Promoted";
+						}
+						query = "INSERT INTO "+ passyear+passsemester +"(id,name,CSE4201,CSE4202,CSE4203,CSE4204,CSE4205,CSE4206,CSE4207,CSE4208,CSE4209,CSE4210,SGPA,CGPA,STATUS,YEAR,SEMESTER) values('"+id+"','"+name+"','"+ck.a+"','"+ck1.a+"','"+ck2.a+"','"+ck3.a+"','"+ck4.a+"','"+ck5.a+"','"+ck6.a+"','"+ck7.a+"','"+ck8.a+"','"+ck9.a+"','"+String.format("%.2f", sgpa)+"','"+String.format("%.2f", cgpa)+"','"+status+"','"+passyear+"','"+passsemester+"')";
 						
 					}
 

@@ -13,6 +13,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ESearchResult extends JFrame {
 
@@ -62,13 +64,27 @@ public class ESearchResult extends JFrame {
 		lblNewLabel.setBounds(300, 99, 160, 35);
 		contentPane.add(lblNewLabel);
 		
-		JComboBox cyear_1 = new JComboBox();
-		cyear_1.setModel(new DefaultComboBoxModel(new String[] {"1st", "2nd"}));
-		cyear_1.setFont(new Font("Dialog", Font.BOLD, 16));
-		cyear_1.setBounds(470, 99, 130, 35);
-		contentPane.add(cyear_1);
+		JComboBox csemister = new JComboBox();
+		csemister.setModel(new DefaultComboBoxModel(new String[] {"1st", "2nd"}));
+		csemister.setFont(new Font("Dialog", Font.BOLD, 16));
+		csemister.setBounds(470, 99, 130, 35);
+		contentPane.add(csemister);
 		
 		JButton eresultsubmit = new JButton("SUBMIT");
+		eresultsubmit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String year = (String) cyear.getSelectedItem();
+				String semister = (String) csemister.getSelectedItem();
+				try {
+					ResultShow ers = new ResultShow(year, semister);
+					ers.setVisible(true);
+					setVisible(false);
+					
+				} catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		});
 		eresultsubmit.setForeground(new Color(255, 255, 255));
 		eresultsubmit.setBackground(new Color(30, 144, 255));
 		eresultsubmit.setFont(new Font("Dialog", Font.BOLD, 24));

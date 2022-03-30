@@ -3,6 +3,8 @@ package com.SignupLogin;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.ResultSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -17,6 +19,8 @@ public class EmployeeLogin extends JFrame {
 	private JPanel contentPane;
 	private JTextField eloginemail;
 	private JTextField eloginpass;
+	
+	String themail;
 
 	/**
 	 * Launch the application.
@@ -55,7 +59,28 @@ public class EmployeeLogin extends JFrame {
 		lblEmail.setBounds(330, 25, 220, 30);
 		contentPane.add(lblEmail);
 		
+		JLabel erroremail = new JLabel("");
+		erroremail.setForeground(Color.RED);
+		//erroremail.setHorizontalAlignment(SwingConstants.CENTER);
+		erroremail.setBounds(330, 90, 220, 20);
+		contentPane.add(erroremail);
+		
 		eloginemail = new JTextField();
+		eloginemail.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				String PATTERN = "^[A-Za-z0-9+_.-]+@(.+)$";
+				Pattern patt =Pattern.compile(PATTERN);
+				Matcher match = patt.matcher(eloginemail.getText());
+				if(!match.matches()) {
+					erroremail.setText("Invalid Email.!");
+					return;
+				} else {
+					themail = eloginemail.getText();
+					erroremail.setText(null);
+				}
+			}
+		});
 		eloginemail.setFont(new Font("Dialog", Font.PLAIN, 12));
 		eloginemail.setToolTipText("Enter Email Address");
 		eloginemail.setBounds(330, 60, 220, 30);
@@ -69,7 +94,7 @@ public class EmployeeLogin extends JFrame {
 		lblPassword.setBounds(330, 105, 220, 30);
 		contentPane.add(lblPassword);
 		
-		eloginpass = new JTextField();
+		eloginpass = new JPasswordField();
 		eloginpass.setToolTipText("Enter Password");
 		eloginpass.setFont(new Font("Dialog", Font.PLAIN, 12));
 		eloginpass.setColumns(10);
@@ -84,7 +109,7 @@ public class EmployeeLogin extends JFrame {
 		elogin.setEnabled(true);
 		elogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String themail = eloginemail.getText();
+				themail = eloginemail.getText();
 				String thpass = eloginpass.getText();
 				
 				try {

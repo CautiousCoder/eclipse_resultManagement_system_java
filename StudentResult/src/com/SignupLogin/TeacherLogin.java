@@ -15,11 +15,17 @@ import com.resultManagement.welcome;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
 import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JPasswordField;
@@ -29,6 +35,8 @@ public class TeacherLogin extends JFrame {
 	private JPanel contentPane;
 	private JTextField tloninemail;
 	private JPasswordField tloginpass;
+	
+	String themail;
 
 	/**
 	 * Launch the application.
@@ -65,7 +73,28 @@ public class TeacherLogin extends JFrame {
 		lblEmail.setBounds(60, 25, 200, 30);
 		contentPane.add(lblEmail);
 		
+		JLabel erroremail = new JLabel("");
+		erroremail.setForeground(Color.RED);
+		erroremail.setHorizontalAlignment(SwingConstants.CENTER);
+		erroremail.setBounds(130, 95, 190, 20);
+		contentPane.add(erroremail);
+		
 		tloninemail = new JTextField();
+		tloninemail.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				String PATTERN = "^[A-Za-z0-9+_.-]+@(.+)$";
+				Pattern patt =Pattern.compile(PATTERN);
+				Matcher match = patt.matcher(tloninemail.getText());
+				if(!match.matches()) {
+					erroremail.setText("Invalid Email.!");
+					return;
+				} else {
+					themail = tloninemail.getText();
+					erroremail.setText(null);
+				}
+			}
+		});
 		tloninemail.setFont(new Font("Dialog", Font.PLAIN, 12));
 		tloninemail.setToolTipText("Enter Email Address");
 		tloninemail.setBounds(60, 60, 220, 35);
@@ -78,13 +107,18 @@ public class TeacherLogin extends JFrame {
 		lblPassword.setBounds(60, 105, 200, 30);
 		contentPane.add(lblPassword);
 		
+		tloginpass = new JPasswordField();
+		tloginpass.setToolTipText("Enter Password");
+		tloginpass.setBounds(60, 140, 220, 35);
+		contentPane.add(tloginpass);
+		
 		JButton tlohin = new JButton("LOG IN");
 		tlohin.setForeground(Color.WHITE);
 		tlohin.setBackground(new Color(30, 144, 255));
 		tlohin.setEnabled(true);
 		tlohin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String themail = tloninemail.getText();
+				themail = tloninemail.getText();
 				String thpass = tloginpass.getText();
 				
 				try {
@@ -113,10 +147,6 @@ public class TeacherLogin extends JFrame {
 			}
 		});
 		
-		tloginpass = new JPasswordField();
-		tloginpass.setToolTipText("Enter Password");
-		tloginpass.setBounds(60, 140, 220, 35);
-		contentPane.add(tloginpass);
 		tlohin.setBounds(60, 202, 220, 35);
 		contentPane.add(tlohin);
 		

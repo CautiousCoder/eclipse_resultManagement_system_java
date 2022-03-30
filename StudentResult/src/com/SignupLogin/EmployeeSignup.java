@@ -7,6 +7,8 @@ import javax.swing.border.EmptyBorder;
 import com.connection.dbConecction;
 import com.resultManagement.*;
 import java.awt.event.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EmployeeSignup extends JFrame {
 
@@ -14,6 +16,8 @@ public class EmployeeSignup extends JFrame {
 	private JTextField ename;
 	private JTextField eEmail;
 	private JPasswordField epassword;
+	
+	String email;
 
 	/**
 	 * Launch the application.
@@ -37,7 +41,7 @@ public class EmployeeSignup extends JFrame {
 	public EmployeeSignup() {
 		setTitle("Employee Signup");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(300, 100, 650, 450);
+		setBounds(300, 100, 650, 480);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -73,6 +77,12 @@ public class EmployeeSignup extends JFrame {
 		lblDepartment.setBounds(50, 270, 120, 30);
 		contentPane.add(lblDepartment);
 		
+		JLabel erroremail = new JLabel("");
+		erroremail.setForeground(Color.RED);
+		erroremail.setHorizontalAlignment(SwingConstants.CENTER);
+		erroremail.setBounds(130, 95, 190, 20);
+		contentPane.add(erroremail);
+		
 		ename = new JTextField();
 		ename.setToolTipText("Enter Your Name");
 		ename.setBounds(180, 70, 400, 30);
@@ -80,6 +90,21 @@ public class EmployeeSignup extends JFrame {
 		ename.setColumns(10);
 		
 		eEmail = new JTextField();
+		eEmail.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				String PATTERN = "^[A-Za-z0-9+_.-]+@(.+)$";
+				Pattern patt =Pattern.compile(PATTERN);
+				Matcher match = patt.matcher(eEmail.getText());
+				if(!match.matches()) {
+					erroremail.setText("Invalid Email.!");
+					return;
+				} else {
+					email = eEmail.getText();
+					erroremail.setText(null);
+				}
+			}
+		});
 		eEmail.setToolTipText("Enter Valid Email");
 		eEmail.setColumns(10);
 		eEmail.setBounds(180, 110, 400, 30);
@@ -115,7 +140,7 @@ public class EmployeeSignup extends JFrame {
 		eSignup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String name = ename.getText();
-				String email = eEmail.getText();
+				email = eEmail.getText();
 				String pass = epassword.getText();
 				String gender = null;
 				if(egenterFemale.isSelected()) {
@@ -128,6 +153,12 @@ public class EmployeeSignup extends JFrame {
 				String dept =  (String) edepartment.getSelectedItem();
 				
 				try {
+					if(email.equals("")) {
+						JOptionPane.showMessageDialog(null,"Email field is required."); 
+					}
+					if(pass.equals("")) {
+						JOptionPane.showMessageDialog(null,"Password field is required."); 
+					}
 					dbConecction c = new dbConecction();
 					String sql = "CREATE TABLE IF NOT EXISTS employeeinfo " +
 			                   "(name VARCHAR(50), " +

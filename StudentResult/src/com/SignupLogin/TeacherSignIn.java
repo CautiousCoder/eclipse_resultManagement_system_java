@@ -23,6 +23,10 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 
 public class TeacherSignIn extends JFrame {
@@ -31,6 +35,9 @@ public class TeacherSignIn extends JFrame {
 	private JTextField tname;
 	private JTextField temail;
 	private JPasswordField tpassword;
+	
+	
+	String name,email,pass,gender,faculty,dept,desig;
 
 	/**
 	 * Launch the application.
@@ -107,7 +114,28 @@ public class TeacherSignIn extends JFrame {
 		contentPane.add(tname);
 		tname.setColumns(10);
 		
+		JLabel erroremail = new JLabel("");
+		erroremail.setForeground(Color.RED);
+		erroremail.setHorizontalAlignment(SwingConstants.CENTER);
+		erroremail.setBounds(200, 125, 390, 20);
+		contentPane.add(erroremail);
+		
 		temail = new JTextField();
+		temail.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				String PATTERN = "^[A-Za-z0-9+_.-]+@(.+)$";
+				Pattern patt =Pattern.compile(PATTERN);
+				Matcher match = patt.matcher(temail.getText());
+				if(!match.matches()) {
+					erroremail.setText("Invalid Email.!");
+					return;
+				} else {
+					email = temail.getText();
+					erroremail.setText(null);
+				}
+			}
+		});
 		temail.setToolTipText("Enter Your Email");
 		temail.setColumns(10);
 		temail.setBounds(190, 100, 400, 30);
@@ -144,31 +172,38 @@ public class TeacherSignIn extends JFrame {
 		JButton tSignup = new JButton("SIGN UP");
 		tSignup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String name = tname.getText();
-				String email = temail.getText();
-				String pass = tpassword.getText();
-				String gender = null;
+				name = tname.getText();
+				pass = tpassword.getText();
+				//email = temail.getText();
+				gender = null;
 				if(tgenderfemale.isSelected()) {
 					gender = "Famele";
 				}
 				else if(rdbtnMale.isSelected()) {
 					gender = "Male";
 				}
-				String faculty =  (String) tfucalty.getSelectedItem();
-				String dept =  (String) tdept.getSelectedItem();
-				String desig =  (String) tdesig.getSelectedItem();
+				faculty =  (String) tfucalty.getSelectedItem();
+				dept =  (String) tdept.getSelectedItem();
+				desig =  (String) tdesig.getSelectedItem();
+				
+				if(email.equals("")) {
+					JOptionPane.showMessageDialog(null,"Email field is required."); 
+				}
+				if(pass.equals("")) {
+					JOptionPane.showMessageDialog(null,"Password field is required."); 
+				}
 				
 				try {
 					dbConecction c = new dbConecction();
-					String sql = "CREATE TABLE IF NOT EXISTS teacherinfo " +
-			                   "(name VARCHAR(50), " +
-			                   " email VARCHAR(40) PRIMARY KEY, " + 
-			                   " password VARCHAR(30), " + 
-			                   " gender VARCHAR(10), " + 
-			                   " faculty VARCHAR(30), " + 
-			                   " department VARCHAR(50)"
-			                   + " profession VARCHAR(50))";
-					c.state.execute(sql);
+//					String sql = "CREATE TABLE IF NOT EXISTS teacherinfo " +
+//			                   "(name VARCHAR(50), " +
+//			                   " email VARCHAR(40) PRIMARY KEY, " + 
+//			                   " password VARCHAR(30), " + 
+//			                   " gender VARCHAR(10), " + 
+//			                   " faculty VARCHAR(30), " + 
+//			                   " department VARCHAR(50)"
+//			                   + " profession VARCHAR(50))";
+//					c.state.execute(sql);
 					
 					String query = "INSERT INTO teacherinfo values('"+name+"','"+email+"','"+pass+"','"+gender+"','"+faculty+"','"+dept+"','"+desig+"')";
 					int x = c.state.executeUpdate(query);

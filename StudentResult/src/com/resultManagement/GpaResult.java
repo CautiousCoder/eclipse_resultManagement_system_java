@@ -11,7 +11,15 @@ public class GpaResult {
 		
 	}
 	double strlt(double gpa, double credit) {
+		
 		return gpa*credit;
+	}
+	double fail(double gpa, double credit) {
+		double notfail = 0;
+		if(gpa<2) {
+			return credit;
+		}
+		return notfail;
 	}
 	
 	double getsgpa(String q) {

@@ -89,6 +89,13 @@ public class Thome extends JFrame {
 		contentPane.add(btnEmployee);
 		
 		JButton btnResult = new JButton("Result");
+		btnResult.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TeacherShowResult tsr = new TeacherShowResult();
+				tsr.setVisible(true);
+				setVisible(false);
+			}
+		});
 		btnResult.setForeground(Color.WHITE);
 		btnResult.setFont(new Font("Dialog", Font.BOLD, 20));
 		btnResult.setBackground(new Color(51, 102, 255));
